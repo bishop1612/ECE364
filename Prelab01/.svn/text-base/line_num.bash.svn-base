@@ -1,0 +1,22 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$HeadURL$
+#$Revision$
+if (($#!=1))
+then
+    echo "Usage: line_num.bash <filename>"
+elif [[ ! -r $1 ]]
+then
+    echo "Cannot read $1"
+else
+    i=1
+    while read name
+    do
+        echo "$i:$name"
+        i=`expr $i + 1`
+    done < $1
+fi
+
+exit 0

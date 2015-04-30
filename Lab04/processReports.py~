@@ -1,0 +1,188 @@
+#!/usr/local/bin/python3.4
+import glob
+import sys
+import filecmp
+
+def generateReportForAllUsers():
+	dictionary = {}
+	files = glob.glob('./user.txt')
+	#for i in files:
+	with open('users.txt',"r") as readfile:
+		readfile.readline()
+		readfile.readline()
+		allLines = readfile.readlines()
+		for line in allLines:
+			word = line.split('|')
+			#print word[0]
+			newname = ''
+			names = word[0].split(',')			
+			#print (names[0])
+			new = {}
+			new = names[1]
+			new += names[0].strip()
+			#print new
+			newname = ''.join(new)
+			ID = word[1].strip()
+			files = glob.glob('./reports/*')
+			for i in files:
+				with open(i,"r") as readfile2:
+					newcost = 0
+					unit = 0
+					ID2 = readfile2.readline()
+					ID2 = ID2.split()
+					if ID2[2] == ID:
+						readfile2.readline()
+						readfile2.readline()
+						readfile2.readline()
+						lns = readfile2.readlines()
+						for line2 in lns:
+							nw = line2.split()
+							units = int(nw[2])
+							#print nw[2]
+							cost = float(nw[3].strip('$'))
+							newcost += cost
+							unit += units
+						dictionary[newname] = unit,newcost
+
+			#print ID
+			#for 
+			
+		print dictionary
+				
+	return dictionary
+
+def generateUsersWithoutReports():
+	dictionary = {}
+	IDdict = []
+	listdict = []
+	files = glob.glob('./reports/*')
+	for i in files:
+		with open(i,"r") as readfile2:
+			newcost = 0
+			unit = 0
+			ID2 = readfile2.readline()
+			ID2 = ID2.split()
+			IDdict.append(ID2[2])
+	for check in IDdict:
+		with open('users.txt',"r") as readfile:
+			readfile.readline()
+			readfile.readline()
+			allLines = readfile.readlines()
+			for line in allLines:
+				set2 = 1
+				word = line.split('|')
+				#print word[0]
+				newname = ''
+				names = word[0].split(',')			
+				#print (names[0])
+				new = {}
+				new = names[1]
+				new += names[0]
+				#print new
+				newname = ''.join(new)
+				ID = word[1].strip()
+				if ID == check:
+					set2 = 0
+			if set2 == 1:
+				listdict.append(newname)
+			#print ID
+			#for 
+			
+		#print dictionary
+	listset = set(listdict)
+	print listset
+				
+	return listset
+
+def getTotalSpending():
+	dictionary = {}
+	totalcost = 0
+	files = glob.glob('./user.txt')
+	#for i in files:	
+	with open('users.txt',"r") as readfile:
+		readfile.readline()
+		readfile.readline()
+		allLines = readfile.readlines()
+		for line in allLines:
+			word = line.split('|')
+			#print word[0]
+			newname = ''
+			names = word[0].split(',')			
+			#print (names[0])
+			new = {}
+			new = names[0]
+			new += names[1].strip()
+			#print new
+			newname = ''.join(new)
+			ID = word[1].strip()
+			files = glob.glob('./reports/*')
+			for i in files:
+				with open(i,"r") as readfile2:
+					newcost = 0
+					unit = 0
+					ID2 = readfile2.readline()
+					ID2 = ID2.split()
+					if ID2[2] == ID:
+						readfile2.readline()
+						readfile2.readline()
+						readfile2.readline()
+						lns = readfile2.readlines()
+						for line2 in lns:
+							nw = line2.split()
+							units = int(nw[2])
+							#print nw[2]
+							cost = float(nw[3].strip('$'))
+							newcost += cost
+							unit += units
+						totalcost += newcost
+						#dictionary[newname] = unit,newcost
+
+			#print ID
+			#for 
+			
+		#print totalcost
+				
+	return totalcost
+
+def generateReportForAllViruses():
+	dictionary = {}
+	virus_dict = {}
+	totalcost = 0
+	#files = glob.glob('./user.txt')
+	#for i in files:	
+	files = glob.glob('./reports/*')
+	for i in files:
+		with open(i,"r") as readfile2:
+			newcost = 0
+			unit = 0
+			readfile2.readline()
+			readfile2.readline()
+			readfile2.readline()
+			readfile2.readline()
+			lns = readfile2.readlines()
+			for line2 in lns:
+				nw = line2.split()
+				virus = nw[1]
+				unit = int(nw[2])
+				cost = float(nw[3].strip('$'))
+				if virus not in virus_dict:
+					virus_dict[virus] = unit,cost
+				else:
+					virus_dict[virus] = unit + virus_dict[virus][0],cost + virus_dict[virus][1]
+						
+	
+	for key in virus_dict:
+		dictionary[key] = (virus_dict[key][0],virus_dict[key][1])
+		
+
+				#print ID
+			#for 
+			
+	#print dictionary
+				
+	return dictionary
+
+
+if __name__ == "__main__":
+	generateReportForAllUsers();
+    #print("addMultiplesOf : {0} ".format(su2))

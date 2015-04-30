@@ -1,0 +1,15 @@
+#! /bin/bash
+#
+#$Author: ee364h10 $
+#$Date: 2015-01-15 10:45:27 -0500 (Thu, 15 Jan 2015) $
+#$HeadURL: svn+ssh://ece364sv@ecegrid-thin1/home/ecegrid/a/ece364sv/svn/S15/students/ee364h10/Lab00/script1 $
+#$Revision: 72069 $
+Num_Of_Param=$#
+Param_Values=$2
+echo "The program received $Num_Of_Param parameters"
+echo "The parameters are : "
+echo "$Param_Values"
+echo "The 2nd parameter is \"$2\""
+echo "The 4th parameter is \"$4\""
+exit 0
+

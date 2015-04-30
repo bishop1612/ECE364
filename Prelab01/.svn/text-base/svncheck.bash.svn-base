@@ -1,0 +1,46 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$HeadURL$
+#$Revision$
+if (($#!=1))
+then
+    echo "Usage: svncheck.bash <filename>"
+elif [[ ! -r $1 ]]
+then
+    echo "Cannot read $1"
+else
+    while read name
+    do
+        echo "Reading $name"
+        STAS=$(svn status $name)
+        if [[ $STAS == ?* ]]
+        then
+           if  [[ -e $name ]]
+           then
+               if [[ ! -x $name ]]
+               then
+                   echo "Do you want to make the file \"line\" executable? (y/n" 
+                   read ans
+                   if (($ans=='y'))
+                   then
+                       chmod +x $name
+                   fi
+               fi
+               svn add $name
+           else
+               echo "Error: File $name appear to not exist here or in svn"
+           fi
+       elif [[ $STAS != ?* ]]
+       then
+           if [[ ! -x $name ]]
+           then
+               svn propset svn:executable ON $name
+           fi
+       fi
+    done < $1
+fi
+
+exit 0
+

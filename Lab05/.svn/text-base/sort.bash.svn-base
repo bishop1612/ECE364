@@ -1,0 +1,43 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$HeadURL$
+#$Revision$
+if (($#<3))
+then
+    echo "Error: Insufficient Information"
+    exit 1
+fi
+if (($#>3))
+then
+    echo "Error: Unknown Option"
+    exit 1
+fi
+if [[ ! -e $2 ]]
+then
+    echo "Error: $1 is not a readable file"
+    exit 1
+fi
+
+while getopts f:b:-: thisopt
+do
+	case $thisopt in
+          a)echo $OPTARG;;
+          b)echo $OPTARG;;
+          -)val=$(echo $OPTARG  | cut -d'=' -f2)
+            echo $val ;;
+          *)echo "Invalid arg";;
+        esac
+done
+
+if (( $val > 4 ))
+then
+ 	echo "Error: Column number $val does not exist"
+    	exit 1
+fi 
+
+data=$( sort -k$val $OPTARG  >> $OPTARG.sorted)
+exit 0
+
+
